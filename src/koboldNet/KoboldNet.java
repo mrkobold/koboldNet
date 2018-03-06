@@ -25,6 +25,33 @@ public class KoboldNet {
 		}
 	}
 
+	public void forwardPass(Double... activations) {
+		for (int i = 1; i < numLayers; i++) {
+			Double currActivations[] = new Double[numNeuronsOnLayers[i]];
+			for (int j = 0; j < numNeuronsOnLayers[i]; j++) {
+				currActivations[j] = sigmoid(aMulW(weights.get(i - 1), activations, i, j));
+			}
+			activations = currActivations;
+		}
+
+		System.out.println("Activations on last layer:");
+		for (Double activation : activations) {
+			System.out.println(activation + ",");
+		}
+	}
+
+	private Double aMulW(Double[][] weights, Double[] activations, int layerNumber, int neuronOnLayer) {
+		Double sum = 0.0;
+		for (int i = 0; i < numNeuronsOnLayers[layerNumber - 1]; i++) {
+			sum += weights[i][neuronOnLayer] * activations[i];
+		}
+		return sum;
+	}
+
+	private Double sigmoid(Double z) {
+		return 1.0 / (1 + Math.exp(z));
+	}
+
 	private Double[][] initializeWeights(int fromLayer) {
 		Random random = new Random();
 		Double weights[][] = new Double[numNeuronsOnLayers[fromLayer]][numNeuronsOnLayers[fromLayer + 1]];
