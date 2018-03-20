@@ -35,6 +35,35 @@ public class KoboldNet {
 		}
 	}
 
+	public int testNetwork(List<Double[]> inputs, List<Double[]> labels) {
+		int correct = 0;
+		for (int i = 0; i < inputs.size(); i++) {
+			Double[] features = inputs.get(i);
+			forwardPass(features);
+			int predictedDigit = findPrediction();
+			if (predictedDigit == findMaxIndex(labels.get(i))) {
+				correct++;
+			}
+		}
+		return correct;
+	}
+
+	private int findPrediction() {
+		return findMaxIndex(activations.get(activations.size() - 1));
+	}
+
+	private int findMaxIndex(Double[] array) {
+		double max = array[0];
+		int position = 0;
+		for (int i = 1; i < array.length; i++) {
+			if (array[i] > max) {
+				max = array[i];
+				position = i;
+			}
+		}
+		return position;
+	}
+
 	public void trainNetwork(List<Double[]> inputs, List<Double[]> labels) {
 		Double[] features = inputs.get(0);
 		forwardPass(features);

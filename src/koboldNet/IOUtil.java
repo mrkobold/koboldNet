@@ -2,8 +2,6 @@ package koboldNet;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -15,10 +13,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class IOUtil {
 
-	public static void readBatch(List<Double[]> inputs, List<Double[]> labels, String imagesFile, String labelsFile) {
+	public static void readBatch(List<Double[]> inputs, List<Double[]> labels, DataInputStream imagesStream, DataInputStream labelsStream) {
 		try {
-			DataInputStream imagesStream = new DataInputStream(new FileInputStream(new File(imagesFile)));
-			DataInputStream labelsStream = new DataInputStream(new FileInputStream(new File(labelsFile)));
 			for (int i = 0; i < 100; i++) {
 				Double image[] = new Double[28 * 28];
 				Double label[] = new Double[10];
